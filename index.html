@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motivation for Harshitha</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-size: 2em;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+        }
+        #message {
+            font-family: cursive;
+            color: pink;
+            position: relative;
+            z-index: 2;
+        }
+        .word {
+            display: none;
+        }
+        .heart {
+            position: absolute;
+            font-size: 2em;
+            animation: floatUp 3s linear infinite;
+            z-index: 1;
+        }
+        .letter {
+            display: none;
+            font-size: 3em;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 3;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh); opacity: 1; }
+            100% { transform: translateY(-10vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="message">
+        <span class="word">YOU</span>
+        <span class="word">ARE</span>
+        <span class="word">DOING</span>
+        <span class="word">A</span>
+        <span class="word">GREAT</span>
+        <span class="word">JOB</span>
+        <span class="word">HARSHITHA!</span>
+    </div>
+    <div id="letter" class="letter" onclick="askQuestion()">✉️</div>
+    
+    <script>
+        let words = document.querySelectorAll(".word");
+        let index = 0;
+        
+        function showWords() {
+            if (index < words.length) {
+                words[index].style.display = "inline";
+                index++;
+                setTimeout(showWords, 1500);
+            } else {
+                setTimeout(showLetter, 1000);
+            }
+        }
+        
+        function showLetter() {
+            document.getElementById("letter").style.display = "inline";
+        }
+        
+        function askQuestion() {
+            let questionDiv = document.createElement("div");
+            questionDiv.className = "popup";
+            questionDiv.innerHTML = "<p>DID YOU DRINK WATER?</p><button onclick='answerYes(this)'>YES</button> <button onclick='answerNo(this)'>NO</button><p id='response'></p>";
+            document.body.appendChild(questionDiv);
+        }
+        
+        function answerYes(button) {
+            button.parentElement.querySelector("#response").innerText = "GOOD BOY";
+        }
+        
+        function answerNo(button) {
+            button.parentElement.querySelector("#response").innerText = "BUNDA FELLOW DRINK WATER";
+        }
+        
+        showWords();
+        
+        function createHeart() {
+            let heart = document.createElement("div");
+            heart.innerHTML = "❤️";
+            let colors = ["❤️", "💖", "💜", "💙"];
+            heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
+            heart.className = "heart";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 2 + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+        
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
