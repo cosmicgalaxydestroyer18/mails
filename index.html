@@ -19,7 +19,7 @@
             flex-direction: column;
             position: relative;
         }
-        #message {
+        #message, #birthdayMessage {
             font-family: cursive;
             color: pink;
             position: relative;
@@ -53,6 +53,9 @@
             text-align: center;
             z-index: 3;
         }
+        #birthdayMessage {
+            display: none;
+        }
         @keyframes floatUp {
             0% { transform: translateY(100vh); opacity: 1; }
             100% { transform: translateY(-10vh); opacity: 0; }
@@ -70,6 +73,7 @@
         <span class="word">HARSHITHA!</span>
     </div>
     <div id="letter" class="letter" onclick="askQuestion()">✉️</div>
+    <div id="birthdayMessage">HAPPY 20 DAYS BEFORE MY FAV PERSON'S BDAY!</div>
     
     <script>
         let words = document.querySelectorAll(".word");
@@ -92,23 +96,39 @@
         function askQuestion() {
             let questionDiv = document.createElement("div");
             questionDiv.className = "popup";
-            questionDiv.innerHTML = "<p>DID YOU DRINK WATER?</p><button onclick='answerYes(this)'>YES</button> <button onclick='answerNo(this)'>NO</button><p id='response'></p>";
+            questionDiv.id = "questionBox";
+            questionDiv.innerHTML = "<p>DID YOU DRINK WATER?</p><button onclick='answerYes()'>YES</button> <button onclick='answerNo()'>NO</button><p id='response'></p>";
             document.body.appendChild(questionDiv);
         }
         
-        function answerYes(button) {
-            button.parentElement.querySelector("#response").innerText = "GOOD BOY";
+        function answerYes() {
+            document.getElementById("response").innerText = "GOOD BOY";
+            removeQuestionBox();
         }
         
-        function answerNo(button) {
-            button.parentElement.querySelector("#response").innerText = "BUNDA FELLOW DRINK WATER";
+        function answerNo() {
+            document.getElementById("response").innerText = "BUNDA FELLOW DRINK WATER";
+            removeQuestionBox();
+        }
+        
+        function removeQuestionBox() {
+            setTimeout(() => {
+                document.getElementById("questionBox").remove();
+                showBirthdayMessage();
+            }, 2000);
+        }
+        
+        function showBirthdayMessage() {
+            setTimeout(() => {
+                document.getElementById("birthdayMessage").style.display = "block";
+                startHearts();
+            }, 500);
         }
         
         showWords();
         
         function createHeart() {
             let heart = document.createElement("div");
-            heart.innerHTML = "❤️";
             let colors = ["❤️", "💖", "💜", "💙"];
             heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
             heart.className = "heart";
@@ -118,7 +138,9 @@
             setTimeout(() => heart.remove(), 3000);
         }
         
-        setInterval(createHeart, 300);
+        function startHearts() {
+            setInterval(createHeart, 300);
+        }
     </script>
 </body>
 </html>
